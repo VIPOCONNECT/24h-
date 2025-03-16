@@ -72,32 +72,130 @@
             transition: all 0.3s ease;
         }
 
+        /* המבורגר אייקון */
+        .hamburger-icon {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 30px;
+            height: 21px;
+            cursor: pointer;
+            z-index: 200;
+        }
+
+        .hamburger-icon span {
+            display: block;
+            height: 3px;
+            width: 100%;
+            background-color: var(--primary-color);
+            border-radius: 3px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        /* תפריט מובייל */
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 80%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            z-index: 150;
+            padding-top: calc(80px + env(safe-area-inset-top, 0));
+            transition: right 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+            box-shadow: -5px 0 30px rgba(0,0,0,0.5);
+        }
+
+        .mobile-menu.active {
+            right: 0;
+        }
+
+        .mobile-menu a {
+            display: block;
+            padding: 18px 25px;
+            margin: 5px 15px;
+            border-radius: 10px;
+            font-size: 1.2em;
+            color: #fff;
+            text-decoration: none;
+            background: rgba(35,213,171,0.1);
+            border: 1px solid rgba(35,213,171,0.2);
+            transition: all 0.3s ease;
+        }
+
+        .mobile-menu a:active,
+        .mobile-menu a:focus {
+            background: rgba(35,213,171,0.2);
+            transform: scale(0.98);
+        }
+
+        /* רקע כהה כשהתפריט פתוח */
+        .menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 120;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .menu-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* אנימציות המבורגר */
+        .hamburger-icon.active span:nth-child(1) {
+            transform: translateY(9px) rotate(45deg);
+        }
+
+        .hamburger-icon.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger-icon.active span:nth-child(3) {
+            transform: translateY(-9px) rotate(-45deg);
+        }
+
+        /* אנימציית הופעה בגלילה */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            will-change: opacity, transform;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
         @media (max-width: 480px) {
             .sticky-header {
-                flex-direction: column;
-                padding: 10px;
-                gap: 8px;
+                padding: 10px 15px;
             }
 
             .sticky-header .logo {
-                margin-bottom: 5px;
+                margin: 0;
                 font-size: 1.1em;
             }
 
             .sticky-header nav {
-                width: 100%;
-                justify-content: space-around;
+                display: none;
             }
 
-            .sticky-header nav a {
-                font-size: 0.85em;
-                padding: 6px 10px;
-                text-align: center;
-                white-space: nowrap;
+            .hamburger-icon {
+                display: flex;
             }
 
             .hero {
-                padding-top: calc(120px + env(safe-area-inset-top, 0));
+                padding-top: calc(80px + env(safe-area-inset-top, 0));
             }
         }
 
@@ -482,25 +580,38 @@
     </div>
 
     <header class="sticky-header">
-        <div class="logo">העסק שלך</div>
+        <div class="logo">דף נחיתה מקצועי</div>
         <nav>
             <a href="#portfolio">עבודות</a>
-            <a href="#about-us">למה אנחנו</a>
-            <a href="#contact-us">צור קשר</a>
+            <a href="#about-us">אודות</a>
+            <a href="https://wa.me/+972501234567">צור קשר</a>
         </nav>
+        <div class="hamburger-icon">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
     </header>
+
+    <div class="mobile-menu">
+        <a href="#portfolio">עבודות</a>
+        <a href="#about-us">אודות</a>
+        <a href="https://wa.me/+972501234567">צור קשר</a>
+    </div>
+
+    <div class="menu-overlay"></div>
 
     <main>
         <section class="hero">
             <h1><span class="typing"></span></h1>
-            <p>דף נחיתה תוך 24 שעות - מקצועי, מהיר ומותאם אישית</p>
-            <a href="https://wa.me/+972501234567" class="cta-button pulse">דברו איתנו עכשיו</a>
+            <p class="fade-in">דף נחיתה תוך 24 שעות - מקצועי, מהיר ומותאם אישית</p>
+            <a href="https://wa.me/+972501234567" class="cta-button pulse fade-in">דברו איתנו עכשיו</a>
         </section>
 
         <section id="portfolio" class="cards-section">
-            <h2>עבודות נבחרות</h2>
+            <h2 class="fade-in">עבודות נבחרות</h2>
             <div class="cards">
-                <div class="card flip-card">
+                <div class="card flip-card fade-in">
                     <div class="flip-card-inner">
                         <div class="flip-card-front">
                             <div class="animated-image-container">
@@ -515,7 +626,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="card flip-card">
+                <div class="card flip-card fade-in">
                     <div class="flip-card-inner">
                         <div class="flip-card-front">
                             <div class="animated-image-container">
@@ -530,7 +641,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="card flip-card">
+                <div class="card flip-card fade-in">
                     <div class="flip-card-inner">
                         <div class="flip-card-front">
                             <div class="animated-image-container">
@@ -545,7 +656,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="card flip-card">
+                <div class="card flip-card fade-in">
                     <div class="flip-card-inner">
                         <div class="flip-card-front">
                             <div class="animated-image-container">
@@ -560,7 +671,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="card flip-card">
+                <div class="card flip-card fade-in">
                     <div class="flip-card-inner">
                         <div class="flip-card-front">
                             <a href="https://lp6.me/PwDhv" target="_blank">
@@ -573,7 +684,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="card flip-card">
+                <div class="card flip-card fade-in">
                     <div class="flip-card-inner">
                         <div class="flip-card-front">
                             <div class="animated-image-container">
@@ -588,7 +699,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="card flip-card">
+                <div class="card flip-card fade-in">
                     <div class="flip-card-inner">
                         <div class="flip-card-front">
                             <div class="animated-image-container">
@@ -603,7 +714,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="card flip-card">
+                <div class="card flip-card fade-in">
                     <div class="flip-card-inner">
                         <div class="flip-card-front">
                             <div class="animated-image-container">
@@ -618,7 +729,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="card flip-card">
+                <div class="card flip-card fade-in">
                     <div class="flip-card-inner">
                         <div class="flip-card-front">
                             <div class="animated-image-container">
@@ -633,7 +744,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="card flip-card">
+                <div class="card flip-card fade-in">
                     <div class="flip-card-inner">
                         <div class="flip-card-front">
                             <div class="animated-image-container">
@@ -652,21 +763,27 @@
         </section>
 
         <section id="about-us" class="glass-section">
-            <h2 class="rotate">למה לבחור בנו?</h2>
+            <h2 class="rotate fade-in">למה לבחור בנו?</h2>
             <div class="benefits">
-                <div>🚀 מהירות: תוך 24 שעות אצלך</div>
-                <div>🎯 מקצועיות: עיצוב שמייצר תוצאות</div>
-                <div>🤝 שירות: ליווי אישי עד לתוצאה</div>
+                <div class="benefit fade-in">
+                    🚀 מהירות: תוך 24 שעות אצלך
+                </div>
+                <div class="benefit fade-in">
+                    🎯 מקצועיות: עיצוב שמייצר תוצאות
+                </div>
+                <div class="benefit fade-in">
+                    🤝 שירות: ליווי אישי עד לתוצאה
+                </div>
             </div>
         </section>
 
         <section id="contact-us" class="glass-section">
-            <h2 class="rotate">רוצה להתחיל?</h2>
-            <a href="https://wa.me/+972501234567" class="cta-button">בוא נדבר עכשיו</a>
+            <h2 class="rotate fade-in">רוצה להתחיל?</h2>
+            <a href="https://wa.me/+972501234567" class="cta-button fade-in">בוא נדבר עכשיו</a>
         </section>
     </main>
 
-    <footer>
+    <footer class="fade-in">
         כל הזכויות שמורות &copy; 2025
     </footer>
 
@@ -784,6 +901,47 @@
                 });
             }
         })();
+
+        // תפריט המבורגר
+        document.addEventListener('DOMContentLoaded', function() {
+            const hamburger = document.querySelector('.hamburger-icon');
+            const mobileMenu = document.querySelector('.mobile-menu');
+            const menuOverlay = document.querySelector('.menu-overlay');
+            const mobileMenuLinks = document.querySelectorAll('.mobile-menu a');
+            
+            function toggleMenu() {
+                hamburger.classList.toggle('active');
+                mobileMenu.classList.toggle('active');
+                menuOverlay.classList.toggle('active');
+                document.body.classList.toggle('menu-open');
+            }
+            
+            hamburger.addEventListener('click', toggleMenu);
+            menuOverlay.addEventListener('click', toggleMenu);
+            
+            mobileMenuLinks.forEach(link => {
+                link.addEventListener('click', toggleMenu);
+            });
+            
+            // אפקט הופעה בגלילה
+            const fadeElements = document.querySelectorAll('.fade-in');
+            
+            const fadeObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        fadeObserver.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            });
+            
+            fadeElements.forEach(element => {
+                fadeObserver.observe(element);
+            });
+        });
     </script>
 </body>
 </html>
